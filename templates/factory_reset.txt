@@ -1,0 +1,6 @@
+
+*** To be used when the slug fails in index.html ***
+{{obj.get_absolute_url}}
+
+** When slugs fail in blog.html **
+{{post.get_absolute_url}}

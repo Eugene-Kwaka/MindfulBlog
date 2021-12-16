@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container mt-5 mb-5">
+    {% if messages %}
+    <div class="alert alert-info" role="alert">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Default form login -->
+<form method="POST" class="text-center border border-light p-5" action="" >
+    {% csrf_token %}
+
+    <p class="h4 mb-4">Sign in</p>
+
+    <!-- Username -->
+    <input type="text" name="username" class="form-control mb-4" placeholder="Username">
+
+    <!-- Password -->
+    <input type="password" name= "password1"  class="form-control mb-4" placeholder="Password">
+
+    <div class="d-flex justify-content-around">
+        <div>
+            <!-- Forgot password -->
+            <a href="{% url 'reset_password' %}">Forgot password?</a>
+        </div>
+    </div>
+
+    <!-- Sign in button -->
+    <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+
+    <!-- Register -->
+    <p>Not a member?
+        <a href="{% url 'registerPage' %}">Register</a>
+    </p>
+
+    <!-- Social login -->
+    <p>or sign in with:</p>
+
+    <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text"></i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text"></i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text"></i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text"></i></a>
+
+</form>
+<!-- Default form login -->
+</div>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block meta_description%} This is the Email Sent Confirmation Page for The Mindful Blog {% endblock %}
+{% block title%} Email Sent Confirmation Page {% endblock %}
+{% block content %}
+
+<center>
+    <div class="col-lg-6 mt-5">
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+            Your message was sent! Check your Email inbox to find our response.
+        </div>
+        {% endif %}
+    </div>
+    </br></br></br>
+
+    <center>
+        <h4><strong>Note: </strong>
+            <p>We have received your email and we will get back to you shortly. Thank You</p>
+        </h4>
+    </center>
+    </br></br></br>
+    {% endblock %}

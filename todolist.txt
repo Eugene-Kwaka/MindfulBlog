@@ -1,0 +1,4 @@
+**** MINDFUL BLOG ***
+- Make a category page where one can access all posts belonging to a particular category
+- Create Contact Page
+- Deploy with Digital Ocean

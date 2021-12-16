@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+{% if messages %}
+<div class="alert alert-success" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="container mt-5 ">
+    <!-- Default form register -->
+    <form class="text-center border border-light p-5" action="" method="POST">
+        {% csrf_token %}
+        <p class="h4 mb-4">Sign up</p>
+
+        <div class="row">
+        {% for field in form %}
+            <div class="col-lg-6">
+            <!-- {{ field.label_tag }} --><br>
+            {{ field }}
+            <br>
+            {% for error in field.errors %}
+            <p class="help-block text-danger"> {{ error }} </p>
+            {% endfor %}
+            </div>
+        {% endfor %}
+        </div>
+        <br>
+        <!-- Sign up button -->
+        <button class="btn btn-info my-4 btn-block" type="submit">Sign in</button>
+
+        <div class="mt-4">
+            <div class="d-flex justify-content-center links">
+                Already have an account? <a href="{% url 'loginPage' %}" class="ml-2">Login</a>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Terms of service -->
+        <p>By clicking
+            <em>Sign up</em> you agree to our
+            <a href="" target="_blank">terms of service</a>
+
+    </form>
+<!-- Default form register -->
+</div>
+<!-- Material form register -->
+{% endblock content %}
