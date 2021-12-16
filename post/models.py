@@ -3,7 +3,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 # from django.template.defaultfilters import slugify
-# from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save
+from BlogSite.utils import unique_slug_generator
 
 User = get_user_model()
 
@@ -36,7 +37,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=250, blank=True, null=True)
     overview = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     content = HTMLField()
@@ -51,11 +52,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
-    # def pre_save_slugify_receiver(sender, instance, *args, **kwargs):
-    #     slug = slugify(instance.title)
-    #     instance.slug = slug  
-    # pre_save.connect(pre_save_slugify_receiver, sender= Post)
 
     def get_absolute_url(self):
         return '/%s/%s/' % (self.category.slug, self.slug)
@@ -75,11 +71,6 @@ class Post(models.Model):
         #     'id': self.id
         # })
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title)
-    #     super(Post, self).save(*args, **kwargs)
-
-
     @property
     def get_comments(self):
         return self.comments.all().order_by('-timestamp')
@@ -91,6 +82,14 @@ class Post(models.Model):
     @property
     def view_count(self):
         return PostView.objects.filter(post=self).count()
+
+# Responsible for creating a slug automatically
+def slug_generator(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+    
+pre_save.connect(slug_generator, sender= Post)
+
 
 
 class Comment(models.Model):

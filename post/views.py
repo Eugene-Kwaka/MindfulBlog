@@ -177,7 +177,13 @@ def post_create(request):
             # return redirect(reverse("post-detail", kwargs={
             #     'id': form.instance.id
             # }))
-            return redirect('post-list')
+            # return redirect(reverse('post-detail', kwargs={
+            #     # 'category_slug':post.category.slug,
+            #     'slug':post.slug
+            # }))
+            return redirect(reverse('post-list'), kwargs={
+                'slug':post.slug
+            })
     context = {
         'title': title,
         'form': form
