@@ -13,17 +13,17 @@ urlpatterns = [
     path('email.html/', email, name="email"),
 
     path('', index, name="home"),
-    path('create/', post_create, name="post-create"),
     path('blog/', blog, name="post-list"),
 
     path('add_category/', add_category, name="add_category"),
-    path('<slug:slug>/', category, name='category'),
-    # path('post/<id>/', post, name="post-detail"),
-    path('<slug:category_slug>/<slug:slug>/', post, name="post-detail"),
-    # path('post/<id>/update/', post_update, name="post-update"),
-    path('<slug:category_slug>/<slug:slug>/update/',  post_update, name="post-update"),
-    # path('post/<id>/delete/', post_delete, name="post-delete"),
-    path('<slug:category_slug>/<slug:slug>/delete/', post_delete, name="post-delete"),
+    # path('<slug:slug>/', category, name='category'),
+    path('create/', post_create, name="post-create"),
+    path('post/<id>/', post, name="post-detail"),
+    # path('<slug:category_slug>/<slug:slug>/', post, name="post-detail"),
+    path('post/<id>/update/', post_update, name="post-update"),
+    # path('<slug:category_slug>/<slug:slug>/update/',  post_update, name="post-update"),
+    path('post/<id>/delete/', post_delete, name="post-delete"),
+    # path('<slug:category_slug>/<slug:slug>/delete/', post_delete, name="post-delete"),
     
     
     # PASSWORD RESET URL PATHS

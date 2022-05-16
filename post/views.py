@@ -7,7 +7,7 @@ from marketing.models import Signup
 from django.core.mail import send_mail
 from django.conf import settings
 
-from django.template.defaultfilters import slugify
+# from django.template.defaultfilters import slugify
 
 # for User Creation & Authentication
 from django.contrib import messages
@@ -136,10 +136,10 @@ def blog(request):
 
 
 # View for the post.html page that is intended to show individual posts
-def post(request,category_slug, slug):  #id):
+def post(request, id):
     category_count = get_category_count()
     most_recent = Post.objects.order_by('-timestamp')[0:3]
-    post = get_object_or_404(Post, slug=slug) #id=id)
+    post = get_object_or_404(Post, id=id)
 
     if request.user.is_authenticated:
         PostView.objects.get_or_create(user=request.user, post=post)
@@ -150,10 +150,10 @@ def post(request,category_slug, slug):  #id):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
-            # return redirect(reverse('post-detail', kwargs={
-            #     'id': post.id
-            # }))
-            return redirect('post-detail', category_slug=category_slug , slug=slug)
+            return redirect(reverse('post-detail', kwargs={
+                'id': post.id
+            }))
+            # return redirect('post-detail', category_slug=category_slug , slug=slug)
     context = {
         'form': form,
         'post': post,
@@ -174,26 +174,27 @@ def post_create(request):
             #post.slug = slugify(post.title)
             # form.instance.author = author
             post.save()
-            # return redirect(reverse("post-detail", kwargs={
-            #     'id': form.instance.id
-            # }))
+            # return redirect('post-list')
+            return redirect(reverse("post-detail", kwargs={
+                'id': form.instance.id
+            }))
             # return redirect(reverse('post-detail', kwargs={
             #     # 'category_slug':post.category.slug,
             #     'slug':post.slug
             # }))
-            return redirect(reverse('post-list'), kwargs={
-                'slug':post.slug
-            })
+            # return redirect(reverse('post-list'), kwargs={
+            #     'slug':post.slug
+            # })
     context = {
+        'form': form,
         'title': title,
-        'form': form
     }
     return render(request, "post_create.html", context)
 
 @allowed_users(allowed_roles=['admin'])
-def post_update(request, category_slug, slug): #id
+def post_update(request, id):
     title = 'Update'
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, id=id)
     form = PostForm(
         request.POST or None,
         request.FILES or None,
@@ -203,10 +204,10 @@ def post_update(request, category_slug, slug): #id
         if form.is_valid():
             form.instance.author = author
             form.save()
-            # return redirect(reverse("post-detail", kwargs={
-            #     'id': form.instance.id
-            # }))
-            return redirect('post-detail', category_slug=category_slug , slug=slug)
+            return redirect(reverse('post-detail', kwargs={
+                'id': form.instance.id
+            }))
+            # return redirect('post-detail', category_slug=category_slug , slug=slug)
     context = {
         'title': title,
         'form': form
@@ -214,8 +215,8 @@ def post_update(request, category_slug, slug): #id
     return render(request, "post_create.html", context)
 
 @allowed_users(allowed_roles=['admin'])
-def post_delete(request, category_slug, slug): #id):
-    post = get_object_or_404(Post, slug=slug)
+def post_delete(request, id):
+    post = get_object_or_404(Post, id=id)
     post.delete()
     return redirect(reverse("post-list"))
 
@@ -235,9 +236,9 @@ def add_category(request):
     }
     return render(request, 'add_category.html', context)
 
-def category(request, slug):
+def category(request, id):
     category_count = get_category_count()
-    category = get_object_or_404(Category, slug=slug)
+    category = get_object_or_404(Category, id=id)
     most_recent = Post.objects.order_by('-timestamp')[0:3]
     all_posts = Post.objects.all()
     # This will filter the active posts that exists in the specified category

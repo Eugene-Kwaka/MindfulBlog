@@ -14,18 +14,18 @@
               <div class="category">
                 {% for cat in post.categories.all %}
                 <!-- when the category is clicked on, it will send us to the particular category page that shows all the posts in that category -->
-                <a href="{% url 'category' post.category.slug %}">{{cat.title}}</a>
+                <a href="{% url 'category' post.category.id %}">{{cat.title}}</a>
                 {% endfor %}
               </div>
 
               {% if request.user.is_staff %}
               <div>
-                <a href="{% url 'post-update' post.category.slug post.slug %}">
+                <a href="{% url 'post-update' post.id %}">
                   <button type="submit" class="btn btn-success">
                     Update
                   </button>
                 </a>
-                <a href="{% url 'post-delete' post.category.slug post.slug %}">
+                <a href="{% url 'post-delete' post.id %}">
                   <button type="submit" class="btn btn-danger">
                     Delete
                   </button>

@@ -24,7 +24,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=20)
-    slug = models.SlugField()
+    # slug = models.SlugField()
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -33,11 +33,14 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return '/%s/' % self.slug
+        # return '/%s/' % self.slug
+        return reverse('post-list', kwargs={
+            'id': self.id
+        })
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=250, blank=True, null=True)
+    #slug = models.SlugField(max_length=250, blank=True, null=True)
     overview = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     content = HTMLField()
@@ -54,22 +57,22 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return '/%s/%s/' % (self.category.slug, self.slug)
-        # return reverse('post-detail', kwargs={
-        #     'id': self.id
-        # })
+        # return '/%s/%s/' % (self.category.slug, self.slug)
+        return reverse('post-detail', kwargs={
+            'id': self.id
+        })
 
     def get_update_url(self):
-        return '/%s/%s/' % (self.category.slug, self.slug)
-        # return reverse('post-update', kwargs={
-        #     'id': self.id
-        # })
+        # return '/%s/%s/' % (self.category.slug, self.slug)
+        return reverse('post-update', kwargs={
+            'id': self.id
+        })
 
     def get_delete_url(self):
-        return '/%s/%s/' % (self.category.slug, self.slug)
-        # return reverse('post-delete', kwargs={
-        #     'id': self.id
-        # })
+        # return '/%s/%s/' % (self.category.slug, self.slug)
+        return reverse('post-delete', kwargs={
+            'id': self.id
+        })
 
     @property
     def get_comments(self):
@@ -83,12 +86,12 @@ class Post(models.Model):
     def view_count(self):
         return PostView.objects.filter(post=self).count()
 
-# Responsible for creating a slug automatically
-def slug_generator(sender, instance, *args, **kwargs):
-    if not instance.slug:
-        instance.slug = unique_slug_generator(instance)
+# # Responsible for creating a slug automatically
+# def slug_generator(sender, instance, *args, **kwargs):
+#     if not instance.slug:
+#         instance.slug = unique_slug_generator(instance)
     
-pre_save.connect(slug_generator, sender= Post)
+# pre_save.connect(slug_generator, sender= Post)
 
 
 
