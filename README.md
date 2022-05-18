@@ -64,6 +64,9 @@ $ heroku login
 $ heroku create <your_app_name>
 $ heroku config:set DISABLE_COLLECTSTATIC=1
 $ heroku config:set SECRET_KEY=<your_secret_key>
+$ heroku config:set AWS_ACCESS_KEY_ID=<your_access_key>
+$ heroku config:set AWS_SECRET_ACCESS_KEY=<your_secret_access>
+$ heroku config:set AWS_STORAGE_BUCKET_NAME=<your_bucket_name>
 $ heroku config:set DATABASE_NAME=mindfulblog
 $ heroku config:set DATABASE_USER=postgres
 $ heroku config:set DEBUG_VALUE=True
