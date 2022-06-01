@@ -221,6 +221,16 @@ def post_delete(request, id):
     return redirect(reverse("post-list"))
 
 
+
+@allowed_users(allowed_roles=['admin'])
+def categories(request):
+    categories = Category.objects.all()
+    context = {
+        'categories':categories,
+    }
+    return render(request, 'blog_categories.html', context)
+
+
 @allowed_users(allowed_roles=['admin'])
 def add_category(request):
     form = CategoryForm()
@@ -235,6 +245,33 @@ def add_category(request):
         'form':form,
     }
     return render(request, 'add_category.html', context)
+
+@allowed_users(allowed_roles=['admin'])
+def update_category(request, pk):
+    category = Category.objects.get(id=pk)
+    form = CategoryForm(instance=category)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+        else:
+            form = CategoryForm()
+    context ={
+        'form':form,
+    }
+    return render(request, 'update_category.html', context)
+
+@allowed_users(allowed_roles=['admin'])
+def delete_category(request, pk):
+    category = Category.objects.get(id=pk)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('categories')
+    context = {
+        'category': category,
+    }
+    return render(request, 'delete_category.html', context)
 
 def category(request, id):
     category_count = get_category_count()

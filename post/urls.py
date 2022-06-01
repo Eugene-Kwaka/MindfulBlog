@@ -15,7 +15,11 @@ urlpatterns = [
     path('', index, name="home"),
     path('blog/', blog, name="post-list"),
 
+
+    path('categories', categories, name="categories"),
     path('add_category/', add_category, name="add_category"),
+    path('update_category/<int:pk>/', update_category, name="update_category"),
+    path('delete_category/<int:pk>/,', delete_category, name="delete_category"),
     # path('<slug:slug>/', category, name='category'),
     path('create/', post_create, name="post-create"),
     path('post/<id>/', post, name="post-detail"),

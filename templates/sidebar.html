@@ -52,6 +52,12 @@
           <a href="#">{{cat.category__title}}</a><span>{{cat.category__title__count}}</span>
         </div>
         {% endfor %}
+        <hr>
+        <div>
+          {% if request.user.is_staff %}
+              <a class="btn btn-primary" href="{% url 'add_category' %}">Add Category</a>
+              {% endif %}
+        </div>
       </div>
 
 </aside>
