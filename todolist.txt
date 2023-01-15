@@ -1,3 +1,0 @@
-**** MINDFUL BLOG ***
-- Add AWS S3 Buckets for my uploaded files
-- Deploy with Digital Ocean
